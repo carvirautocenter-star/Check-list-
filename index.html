@@ -132,6 +132,7 @@
         #vehicleArea {
             position: relative;
             width: 100%;
+            min-height: 280px;
             line-height: 0;
             overflow: hidden;
             background: white;
@@ -143,10 +144,35 @@
         #vehicleImage {
             width: 100%;
             height: auto;
+            min-height: 280px;
+            object-fit: contain;
             display: block;
             pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
+        }
+
+        /* TELA QUANDO A IMAGEM NÃO FOI CADASTRADA */
+
+        .vehicle-placeholder {
+            display: none;
+            width: 100%;
+            min-height: 280px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 700;
+        }
+
+        .vehicle-placeholder .placeholder-icon {
+            display: block;
+            font-size: 48px;
+            margin-bottom: 10px;
         }
 
         /* =========================================
@@ -205,7 +231,7 @@
         }
 
         /* =========================================
-           CARD DO MARCADOR
+           CARD
         ========================================== */
 
         .item-card {
@@ -292,17 +318,12 @@
 
         .action-button {
             border: none;
-            min-height: 48px;
+            min-height: 50px;
             padding: 10px;
             border-radius: 12px;
             font-size: 14px;
             font-weight: 900;
             cursor: pointer;
-            transition: transform .15s ease;
-        }
-
-        .action-button:active {
-            transform: scale(.97);
         }
 
         .mic-button {
@@ -335,6 +356,8 @@
             }
         }
 
+        /* INPUTS */
+
         .hidden-input {
             display: none;
         }
@@ -347,7 +370,7 @@
         }
 
         /* =========================================
-           GALERIA DE FOTOS
+           FOTOS
         ========================================== */
 
         .photos {
@@ -415,19 +438,6 @@
             padding: 22px;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,.35);
-            animation: modalShow .18s ease;
-        }
-
-        @keyframes modalShow {
-            from {
-                transform: scale(.92);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
         }
 
         .modal-icon {
@@ -480,7 +490,9 @@
             color: white;
         }
 
-        /* MODAL DE FOTOS */
+        /* =========================================
+           MODAL DE FOTOS
+        ========================================== */
 
         .photo-options {
             display: grid;
@@ -531,1390 +543,1687 @@
             padding: 0 15px;
         }
 
-        @media (min-width: 901px) {
-
-            body {
-                background: #e2e8f0;
-            }
-
-            .app {
-                background: #f8fafc;
-                box-shadow: 0 0 30px rgba(15,23,42,.12);
-            }
-
-        }
-
     </style>
 </head>
 
 <body>
 
-    <div class="app">
+<div class="app">
 
-        <!-- =====================================
-             CABEÇALHO
-        ====================================== -->
+    <!-- CABEÇALHO -->
 
-        <header class="header">
+    <header class="header">
 
-            <h1>🚗 CHECK LIST AUTOMOTIVO</h1>
+        <h1>🚗 CHECK LIST AUTOMOTIVO</h1>
 
-            <p>Toque no veículo para marcar avarias</p>
+        <p>Toque no veículo para marcar avarias</p>
 
-            <!-- =================================
-                 SELETOR DE VEÍCULO
-            ================================== -->
+        <div class="vehicle-selector-box">
 
-            <div class="vehicle-selector-box">
+            <label for="vehicleSelector">
+                🚘 Selecione o tipo de veículo
+            </label>
 
-                <label for="vehicleSelector">
-                    🚘 Selecione o tipo de veículo
-                </label>
+            <select id="vehicleSelector">
 
-                <select id="vehicleSelector">
+                <option value="sedan">
+                    🚗 Automóvel leve / Sedan
+                </option>
 
-                    <option value="sedan">
-                        🚗 Automóvel leve / Sedan
-                    </option>
+                <option value="hatch">
+                    🚙 Hatch
+                </option>
 
-                    <option value="hatch">
-                        🚙 Hatch
-                    </option>
+                <option value="suv">
+                    🚙 SUV / Crossover
+                </option>
 
-                    <option value="suv">
-                        🚙 SUV / Crossover
-                    </option>
+                <option value="pickup">
+                    🛻 Caminhonete / Picape
+                </option>
 
-                    <option value="pickup">
-                        🛻 Caminhonete / Picape
-                    </option>
+                <option value="van">
+                    🚐 Van / Utilitário
+                </option>
 
-                    <option value="van">
-                        🚐 Van / Utilitário
-                    </option>
+                <option value="truck">
+                    🚛 Caminhão
+                </option>
 
-                    <option value="truck">
-                        🚛 Caminhão
-                    </option>
+                <option value="bus">
+                    🚌 Ônibus
+                </option>
 
-                    <option value="bus">
-                        🚌 Ônibus
-                    </option>
+                <option value="tractor">
+                    🚜 Trator
+                </option>
 
-                    <option value="tractor">
-                        🚜 Trator
-                    </option>
+                <option value="forklift">
+                    🏗️ Empilhadeira
+                </option>
 
-                    <option value="forklift">
-                        🏗️ Empilhadeira
-                    </option>
+                <option value="motorcycle">
+                    🏍️ Motocicleta
+                </option>
 
-                    <option value="motorcycle">
-                        🏍️ Motocicleta
-                    </option>
+                <option value="other">
+                    🔧 Outro veículo
+                </option>
 
-                    <option value="other">
-                        🔧 Outro veículo
-                    </option>
+            </select>
 
-                </select>
+        </div>
 
-            </div>
-
-        </header>
+    </header>
 
 
-        <!-- =====================================
-             ÁREA DO VEÍCULO
-        ====================================== -->
+    <!-- VEÍCULO -->
 
-        <section class="vehicle-section">
+    <section class="vehicle-section">
 
-            <div class="instructions">
+        <div class="instructions">
 
-                👆 Toque em qualquer parte da imagem
-                para adicionar um marcador
+            👆 Toque na imagem para adicionar
+            um marcador
 
-            </div>
+        </div>
 
-            <div id="vehicleArea">
+        <div id="vehicleArea">
 
-                <img
-                    id="vehicleImage"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10"
-                    alt="Veículo para checklist automotivo"
-                >
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================
-             CHECKLIST
-        ====================================== -->
-
-        <main class="checklist">
-
-            <h2 class="checklist-title">
-                📋 Avarias e observações
-            </h2>
-
-            <div
-                id="emptyMessage"
-                class="empty"
+            <img
+                id="vehicleImage"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10"
+                alt="Veículo para checklist automotivo"
             >
 
-                Nenhuma avaria marcada ainda.
+            <div
+                id="vehiclePlaceholder"
+                class="vehicle-placeholder"
+            >
 
-                <br>
+                <div>
 
-                Toque na imagem do veículo
-                para adicionar o primeiro marcador.
+                    <span class="placeholder-icon">
+                        🚘
+                    </span>
 
-            </div>
+                    Imagem deste veículo ainda
+                    não adicionada.
 
-            <div id="itemsContainer"></div>
+                    <br><br>
 
-        </main>
+                    Adicione o link da imagem
+                    no objeto <b>vehicleImages</b>.
 
-
-        <div class="footer-note">
-            Sistema de Check List Automotivo
-        </div>
-
-    </div>
-
-
-    <!-- =========================================
-         MODAL EXCLUIR MARCADOR
-    ========================================== -->
-
-    <div
-        id="deleteModal"
-        class="modal-overlay"
-    >
-
-        <div class="modal">
-
-            <div class="modal-icon">
-                🗑️
-            </div>
-
-            <h3>Excluir marcador?</h3>
-
-            <p>
-                O marcador, a descrição e todas as
-                fotos vinculadas a ele serão removidos.
-            </p>
-
-            <div class="modal-buttons">
-
-                <button
-                    id="cancelDelete"
-                    class="
-                        modal-button
-                        cancel-button
-                    "
-                    type="button"
-                >
-                    Cancelar
-                </button>
-
-                <button
-                    id="confirmDelete"
-                    class="
-                        modal-button
-                        confirm-delete
-                    "
-                    type="button"
-                >
-                    Excluir
-                </button>
+                </div>
 
             </div>
 
         </div>
 
+    </section>
+
+
+    <!-- CHECKLIST -->
+
+    <main class="checklist">
+
+        <h2 class="checklist-title">
+            📋 Avarias e observações
+        </h2>
+
+        <div
+            id="emptyMessage"
+            class="empty"
+        >
+
+            Nenhuma avaria marcada ainda.
+
+            <br>
+
+            Toque na imagem do veículo
+            para adicionar o primeiro marcador.
+
+        </div>
+
+        <div id="itemsContainer"></div>
+
+    </main>
+
+
+    <div class="footer-note">
+        Sistema de Check List Automotivo
     </div>
 
+</div>
 
-    <!-- =========================================
-         MODAL ESCOLHER FOTO
-    ========================================== -->
 
-    <div
-        id="photoModal"
-        class="modal-overlay"
-    >
+<!-- MODAL EXCLUIR -->
 
-        <div class="modal">
+<div
+    id="deleteModal"
+    class="modal-overlay"
+>
 
-            <div class="modal-icon">
-                📷
-            </div>
+    <div class="modal">
 
-            <h3>Adicionar foto</h3>
+        <div class="modal-icon">
+            🗑️
+        </div>
 
-            <p>
-                Escolha como deseja adicionar as fotos
-                desta avaria.
-            </p>
+        <h3>Excluir marcador?</h3>
 
-            <div class="photo-options">
+        <p>
+            O marcador, a descrição e todas
+            as fotos vinculadas serão removidos.
+        </p>
 
-                <button
-                    id="cameraOption"
-                    class="
-                        photo-option-button
-                        camera-option
-                    "
-                    type="button"
-                >
-                    📷 Tirar foto agora
-                </button>
-
-                <button
-                    id="galleryOption"
-                    class="
-                        photo-option-button
-                        gallery-option
-                    "
-                    type="button"
-                >
-                    🖼️ Escolher da galeria
-                </button>
-
-            </div>
+        <div class="modal-buttons">
 
             <button
-                id="closePhotoModal"
-                class="close-photo-modal"
+                id="cancelDelete"
+                class="
+                    modal-button
+                    cancel-button
+                "
                 type="button"
             >
                 Cancelar
+            </button>
+
+            <button
+                id="confirmDelete"
+                class="
+                    modal-button
+                    confirm-delete
+                "
+                type="button"
+            >
+                Excluir
             </button>
 
         </div>
 
     </div>
 
-
-    <script>
-
-        /* =========================================
-           IMAGENS DOS VEÍCULOS
-           
-           FUTURAMENTE VOCÊ PODERÁ ALTERAR
-           OS LINKS ABAIXO.
-        ========================================== */
-
-        const vehicleImages = {
-
-            sedan:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            /*
-               Por enquanto as categorias abaixo
-               utilizam a mesma imagem.
-
-               Basta substituir futuramente pelos
-               links das imagens correspondentes.
-            */
-
-            hatch:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            suv:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            pickup:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            van:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            truck:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            bus:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            tractor:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            forklift:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            motorcycle:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
-
-            other:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10"
-
-        };
+</div>
 
 
-        /* =========================================
-           CORES
-        ========================================== */
+<!-- MODAL FOTOS -->
 
-        const colors = [
+<div
+    id="photoModal"
+    class="modal-overlay"
+>
 
-            "#ef4444",
-            "#2563eb",
-            "#16a34a",
-            "#9333ea",
-            "#f97316",
-            "#0891b2",
-            "#db2777",
-            "#65a30d",
-            "#ca8a04",
-            "#7c3aed",
-            "#dc2626",
-            "#0284c7",
-            "#059669",
-            "#c026d3",
-            "#ea580c",
-            "#0f766e"
+    <div class="modal">
 
-        ];
+        <div class="modal-icon">
+            📷
+        </div>
 
+        <h3>Adicionar foto</h3>
 
-        /* =========================================
-           ELEMENTOS
-        ========================================== */
+        <p>
+            Escolha uma das opções abaixo.
+        </p>
 
-        const vehicleArea =
-            document.getElementById("vehicleArea");
+        <div class="photo-options">
 
-        const vehicleImage =
-            document.getElementById("vehicleImage");
+            <button
+                id="cameraOption"
+                class="
+                    photo-option-button
+                    camera-option
+                "
+                type="button"
+            >
+                📷 Tirar foto agora
+            </button>
 
-        const vehicleSelector =
-            document.getElementById("vehicleSelector");
+            <button
+                id="galleryOption"
+                class="
+                    photo-option-button
+                    gallery-option
+                "
+                type="button"
+            >
+                🖼️ Escolher da galeria
+            </button>
 
-        const itemsContainer =
-            document.getElementById("itemsContainer");
+        </div>
 
-        const emptyMessage =
-            document.getElementById("emptyMessage");
+        <button
+            id="closePhotoModal"
+            class="close-photo-modal"
+            type="button"
+        >
+            Cancelar
+        </button>
 
-        const deleteModal =
-            document.getElementById("deleteModal");
+    </div>
 
-        const photoModal =
-            document.getElementById("photoModal");
-
-
-        /* =========================================
-           DADOS
-        ========================================== */
-
-        let markers = [];
-
-        let currentNumber = 1;
-
-        let markerPendingDelete = null;
-
-        let currentPhotoInput = null;
+</div>
 
 
-        /* =========================================
-           TROCAR VEÍCULO
-        ========================================== */
+<script>
 
-        vehicleSelector.addEventListener(
-            "change",
-            function() {
 
-                const selectedVehicle =
-                    vehicleSelector.value;
+    /* =========================================
+       IMAGENS DOS VEÍCULOS
 
-                /*
-                   Se existem marcadores,
-                   pergunta antes de trocar.
-                */
+       SOMENTE O SEDAN POSSUI IMAGEM.
 
-                if (markers.length > 0) {
+       OS OUTROS MODELOS ESTÃO VAZIOS
+       INTENCIONALMENTE.
+    ========================================== */
 
-                    const confirmed =
-                        confirm(
-                            "Ao trocar o tipo de veículo, todos os marcadores atuais serão removidos. Deseja continuar?"
-                        );
+    const vehicleImages = {
 
-                    if (!confirmed) {
-                        return;
-                    }
+        sedan:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmZqQZy8ylWVkD7-cgxaFIbu7qDabEbnZsjEMFnQWjucw6xJrnKJN3ec&s=10",
 
-                    clearAllMarkers();
+        hatch: "",
 
-                }
+        suv: "",
 
-                vehicleImage.src =
-                    vehicleImages[selectedVehicle];
+        pickup: "",
 
-            }
+        van: "",
+
+        truck: "",
+
+        bus: "",
+
+        tractor: "",
+
+        forklift: "",
+
+        motorcycle: "",
+
+        other: ""
+
+    };
+
+
+    /* CORES */
+
+    const colors = [
+
+        "#ef4444",
+        "#2563eb",
+        "#16a34a",
+        "#9333ea",
+        "#f97316",
+        "#0891b2",
+        "#db2777",
+        "#65a30d",
+        "#ca8a04",
+        "#7c3aed",
+        "#dc2626",
+        "#0284c7",
+        "#059669",
+        "#c026d3",
+        "#ea580c",
+        "#0f766e"
+
+    ];
+
+
+    /* ELEMENTOS */
+
+    const vehicleArea =
+        document.getElementById(
+            "vehicleArea"
+        );
+
+    const vehicleImage =
+        document.getElementById(
+            "vehicleImage"
+        );
+
+    const vehiclePlaceholder =
+        document.getElementById(
+            "vehiclePlaceholder"
+        );
+
+    const vehicleSelector =
+        document.getElementById(
+            "vehicleSelector"
+        );
+
+    const itemsContainer =
+        document.getElementById(
+            "itemsContainer"
+        );
+
+    const emptyMessage =
+        document.getElementById(
+            "emptyMessage"
+        );
+
+    const deleteModal =
+        document.getElementById(
+            "deleteModal"
+        );
+
+    const photoModal =
+        document.getElementById(
+            "photoModal"
         );
 
 
-        /* =========================================
-           ADICIONAR MARCADOR
-        ========================================== */
+    /* DADOS */
 
-        vehicleArea.addEventListener(
+    let markers = [];
+
+    let currentNumber = 1;
+
+    let markerPendingDelete = null;
+
+    let currentPhotoCard = null;
+
+
+    /* =========================================
+       TROCAR MODELO
+    ========================================== */
+
+    vehicleSelector.addEventListener(
+        "change",
+        function() {
+
+            const selectedVehicle =
+                vehicleSelector.value;
+
+
+            /*
+               Limpa os marcadores
+               ao trocar o veículo.
+            */
+
+            if (
+                markers.length > 0
+            ) {
+
+                const confirmed =
+                    confirm(
+                        "Ao trocar o modelo do veículo, os marcadores atuais serão removidos. Deseja continuar?"
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                clearAllMarkers();
+
+            }
+
+
+            const imageURL =
+                vehicleImages[selectedVehicle];
+
+
+            /*
+               SE EXISTE IMAGEM
+            */
+
+            if (imageURL) {
+
+                vehicleImage.src =
+                    imageURL;
+
+                vehicleImage.style.display =
+                    "block";
+
+                vehiclePlaceholder.style.display =
+                    "none";
+
+            }
+
+
+            /*
+               SEM IMAGEM
+            */
+
+            else {
+
+                vehicleImage.removeAttribute(
+                    "src"
+                );
+
+                vehicleImage.style.display =
+                    "none";
+
+                vehiclePlaceholder.style.display =
+                    "flex";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================
+       ADICIONAR MARCADOR
+    ========================================== */
+
+    vehicleArea.addEventListener(
+        "click",
+        function(event) {
+
+            /*
+               Não permite marcador
+               se não existe imagem.
+            */
+
+            if (
+                vehicleImage.style.display ===
+                "none"
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                event.target.classList.contains(
+                    "marker"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            const rect =
+                vehicleArea.getBoundingClientRect();
+
+
+            const x =
+                (
+                    (
+                        event.clientX -
+                        rect.left
+                    )
+                    /
+                    rect.width
+                )
+                *
+                100;
+
+
+            const y =
+                (
+                    (
+                        event.clientY -
+                        rect.top
+                    )
+                    /
+                    rect.height
+                )
+                *
+                100;
+
+
+            const number =
+                currentNumber;
+
+
+            const color =
+                colors[
+                    (number - 1)
+                    %
+                    colors.length
+                ];
+
+
+            const markerData = {
+
+                id:
+                    Date.now()
+                    +
+                    Math.random(),
+
+                number:
+                    number,
+
+                x:
+                    x,
+
+                y:
+                    y,
+
+                color:
+                    color,
+
+                text:
+                    "",
+
+                photos:
+                    []
+
+            };
+
+
+            markers.push(
+                markerData
+            );
+
+
+            createMarker(
+                markerData
+            );
+
+
+            createItemCard(
+                markerData
+            );
+
+
+            currentNumber++;
+
+
+            updateEmptyMessage();
+
+        }
+    );
+
+
+    /* =========================================
+       CRIAR MARCADOR
+    ========================================== */
+
+    function createMarker(data) {
+
+        const marker =
+            document.createElement(
+                "button"
+            );
+
+        marker.type =
+            "button";
+
+        marker.className =
+            "marker";
+
+        marker.dataset.id =
+            data.id;
+
+        marker.textContent =
+            data.number;
+
+        marker.style.left =
+            data.x + "%";
+
+        marker.style.top =
+            data.y + "%";
+
+        marker.style.background =
+            data.color;
+
+
+        marker.addEventListener(
             "click",
             function(event) {
 
-                if (
-                    event.target.classList.contains("marker")
-                ) {
-                    return;
-                }
+                event.stopPropagation();
 
-                const rect =
-                    vehicleArea.getBoundingClientRect();
-
-                const x =
-                    (
-                        (
-                            event.clientX -
-                            rect.left
-                        )
-                        /
-                        rect.width
-                    )
-                    *
-                    100;
-
-                const y =
-                    (
-                        (
-                            event.clientY -
-                            rect.top
-                        )
-                        /
-                        rect.height
-                    )
-                    *
-                    100;
-
-                const number =
-                    currentNumber;
-
-                const color =
-                    colors[
-                        (number - 1)
-                        %
-                        colors.length
-                    ];
-
-                const markerData = {
-
-                    id:
-                        Date.now()
-                        +
-                        Math.random(),
-
-                    number:
-                        number,
-
-                    x:
-                        x,
-
-                    y:
-                        y,
-
-                    color:
-                        color,
-
-                    text:
-                        "",
-
-                    photos:
-                        []
-
-                };
-
-                markers.push(markerData);
-
-                createMarker(markerData);
-
-                createItemCard(markerData);
-
-                currentNumber++;
-
-                updateEmptyMessage();
+                askToDeleteMarker(
+                    data.id
+                );
 
             }
         );
 
 
-        /* =========================================
-           CRIAR MARCADOR
-        ========================================== */
+        vehicleArea.appendChild(
+            marker
+        );
 
-        function createMarker(data) {
+    }
 
-            const marker =
-                document.createElement("button");
 
-            marker.type = "button";
+    /* =========================================
+       MODAL EXCLUIR
+    ========================================== */
 
-            marker.className = "marker";
+    function askToDeleteMarker(id) {
 
-            marker.dataset.id = data.id;
+        markerPendingDelete =
+            id;
 
-            marker.textContent = data.number;
+        deleteModal.classList.add(
+            "active"
+        );
 
-            marker.style.left =
-                data.x + "%";
+        document.body.classList.add(
+            "modal-open"
+        );
 
-            marker.style.top =
-                data.y + "%";
+    }
 
-            marker.style.background =
-                data.color;
 
-            marker.addEventListener(
-                "click",
-                function(event) {
+    document
+        .getElementById(
+            "cancelDelete"
+        )
+        .addEventListener(
+            "click",
+            function() {
 
-                    event.stopPropagation();
+                closeDeleteModal();
 
-                    askToDeleteMarker(data.id);
+            }
+        );
+
+
+    document
+        .getElementById(
+            "confirmDelete"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                if (
+                    markerPendingDelete !==
+                    null
+                ) {
+
+                    removeMarker(
+                        markerPendingDelete
+                    );
 
                 }
+
+
+                closeDeleteModal();
+
+            }
+        );
+
+
+    function closeDeleteModal() {
+
+        deleteModal.classList.remove(
+            "active"
+        );
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+        markerPendingDelete =
+            null;
+
+    }
+
+
+    /* =========================================
+       REMOVER MARCADOR
+    ========================================== */
+
+    function removeMarker(id) {
+
+        markers =
+            markers.filter(
+                marker =>
+                    marker.id !== id
             );
 
-            vehicleArea.appendChild(marker);
+
+        const markerElement =
+            vehicleArea.querySelector(
+                `.marker[data-id="${id}"]`
+            );
+
+
+        if (
+            markerElement
+        ) {
+
+            markerElement.remove();
 
         }
 
 
-        /* =========================================
-           POP-UP EXCLUIR
-        ========================================== */
+        const itemCard =
+            document.querySelector(
+                `.item-card[data-id="${id}"]`
+            );
 
-        function askToDeleteMarker(id) {
 
-            markerPendingDelete = id;
+        if (
+            itemCard
+        ) {
 
-            deleteModal.classList.add("active");
-
-            document.body.classList.add("modal-open");
+            itemCard.remove();
 
         }
 
 
-        document
-            .getElementById("cancelDelete")
-            .addEventListener(
-                "click",
-                function() {
+        updateEmptyMessage();
 
-                    closeDeleteModal();
+    }
 
-                }
+
+    /* =========================================
+       LIMPAR MARCADORES
+    ========================================== */
+
+    function clearAllMarkers() {
+
+        markers = [];
+
+        currentNumber = 1;
+
+
+        vehicleArea
+            .querySelectorAll(
+                ".marker"
+            )
+            .forEach(
+                marker =>
+                    marker.remove()
             );
 
 
-        document
-            .getElementById("confirmDelete")
-            .addEventListener(
+        itemsContainer.innerHTML =
+            "";
+
+
+        updateEmptyMessage();
+
+    }
+
+
+    /* =========================================
+       MENSAGEM VAZIA
+    ========================================== */
+
+    function updateEmptyMessage() {
+
+        emptyMessage.style.display =
+
+            markers.length === 0
+
+                ?
+
+                "block"
+
+                :
+
+                "none";
+
+    }
+
+
+    /* =========================================
+       CRIAR CARD
+    ========================================== */
+
+    function createItemCard(data) {
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "item-card";
+
+
+        card.dataset.id =
+            data.id;
+
+
+        card.innerHTML = `
+
+            <div class="item-header">
+
+                <div
+                    class="number-badge"
+                    style="
+                        background:
+                        ${data.color}
+                    "
+                >
+
+                    ${data.number}
+
+                </div>
+
+
+                <div class="item-title">
+
+                    Avaria / Observação
+                    ${data.number}
+
+                </div>
+
+
+                <button
+                    class="delete-button"
+                    type="button"
+                >
+
+                    🗑️
+
+                </button>
+
+            </div>
+
+
+            <div class="item-content">
+
+
+                <textarea
+                    placeholder="Descreva a avaria ou observação..."
+                ></textarea>
+
+
+                <div class="buttons">
+
+
+                    <button
+                        type="button"
+                        class="
+                            action-button
+                            mic-button
+                        "
+                    >
+
+                        🎤 Falar
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="
+                            action-button
+                            photo-button
+                        "
+                    >
+
+                        📷 Fotos
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- GALERIA -->
+
+                <input
+                    type="file"
+                    class="
+                        hidden-input
+                        gallery-input
+                    "
+                    accept="image/*"
+                    multiple
+                >
+
+
+                <!-- CÂMERA -->
+
+                <input
+                    type="file"
+                    class="
+                        hidden-input
+                        camera-input
+                    "
+                    accept="image/*"
+                    capture="environment"
+                >
+
+
+                <div
+                    class="status"
+                ></div>
+
+
+                <div
+                    class="photos"
+                ></div>
+
+
+            </div>
+
+        `;
+
+
+        itemsContainer.appendChild(
+            card
+        );
+
+
+        const textarea =
+            card.querySelector(
+                "textarea"
+            );
+
+
+        const micButton =
+            card.querySelector(
+                ".mic-button"
+            );
+
+
+        const photoButton =
+            card.querySelector(
+                ".photo-button"
+            );
+
+
+        const galleryInput =
+            card.querySelector(
+                ".gallery-input"
+            );
+
+
+        const cameraInput =
+            card.querySelector(
+                ".camera-input"
+            );
+
+
+        const photosContainer =
+            card.querySelector(
+                ".photos"
+            );
+
+
+        const deleteButton =
+            card.querySelector(
+                ".delete-button"
+            );
+
+
+        const status =
+            card.querySelector(
+                ".status"
+            );
+
+
+        /* EXCLUIR */
+
+        deleteButton.addEventListener(
+            "click",
+            function() {
+
+                askToDeleteMarker(
+                    data.id
+                );
+
+            }
+        );
+
+
+        /* TEXTO */
+
+        textarea.addEventListener(
+            "input",
+            function() {
+
+                const marker =
+                    markers.find(
+                        item =>
+                            item.id ===
+                            data.id
+                    );
+
+
+                if (
+                    marker
+                ) {
+
+                    marker.text =
+                        textarea.value;
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           MICROFONE
+        ================================== */
+
+        const SpeechRecognition =
+
+            window.SpeechRecognition
+            ||
+            window.webkitSpeechRecognition;
+
+
+        if (
+            SpeechRecognition
+        ) {
+
+            const recognition =
+                new SpeechRecognition();
+
+
+            recognition.lang =
+                "pt-BR";
+
+
+            recognition.continuous =
+                false;
+
+
+            recognition.interimResults =
+                true;
+
+
+            let baseText =
+                "";
+
+
+            micButton.addEventListener(
                 "click",
                 function() {
 
                     if (
-                        markerPendingDelete !== null
+                        micButton.classList.contains(
+                            "listening"
+                        )
                     ) {
 
-                        removeMarker(
-                            markerPendingDelete
-                        );
+                        recognition.stop();
+
+                        return;
 
                     }
 
-                    closeDeleteModal();
+
+                    baseText =
+                        textarea.value.trim();
+
+
+                    recognition.start();
 
                 }
             );
 
 
-        function closeDeleteModal() {
-
-            deleteModal.classList.remove(
-                "active"
-            );
-
-            document.body.classList.remove(
-                "modal-open"
-            );
-
-            markerPendingDelete = null;
-
-        }
-
-
-        /* =========================================
-           REMOVER MARCADOR
-        ========================================== */
-
-        function removeMarker(id) {
-
-            markers =
-                markers.filter(
-                    marker =>
-                        marker.id !== id
-                );
-
-            const markerElement =
-                vehicleArea.querySelector(
-                    `.marker[data-id="${id}"]`
-                );
-
-            if (markerElement) {
-
-                markerElement.remove();
-
-            }
-
-            const itemCard =
-                document.querySelector(
-                    `.item-card[data-id="${id}"]`
-                );
-
-            if (itemCard) {
-
-                itemCard.remove();
-
-            }
-
-            updateEmptyMessage();
-
-        }
-
-
-        /* =========================================
-           LIMPAR TODOS
-        ========================================== */
-
-        function clearAllMarkers() {
-
-            markers = [];
-
-            currentNumber = 1;
-
-            vehicleArea
-                .querySelectorAll(".marker")
-                .forEach(
-                    marker => marker.remove()
-                );
-
-            itemsContainer.innerHTML = "";
-
-            updateEmptyMessage();
-
-        }
-
-
-        /* =========================================
-           MENSAGEM VAZIA
-        ========================================== */
-
-        function updateEmptyMessage() {
-
-            emptyMessage.style.display =
-                markers.length === 0
-                    ?
-                    "block"
-                    :
-                    "none";
-
-        }
-
-
-        /* =========================================
-           CRIAR CARD
-        ========================================== */
-
-        function createItemCard(data) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "item-card";
-
-            card.dataset.id =
-                data.id;
-
-            card.innerHTML = `
-
-                <div class="item-header">
-
-                    <div
-                        class="number-badge"
-                        style="background:${data.color}"
-                    >
-                        ${data.number}
-                    </div>
-
-                    <div class="item-title">
-                        Avaria / Observação ${data.number}
-                    </div>
-
-                    <button
-                        class="delete-button"
-                        type="button"
-                        title="Excluir marcador"
-                    >
-                        🗑️
-                    </button>
-
-                </div>
-
-                <div class="item-content">
-
-                    <textarea
-                        placeholder="Descreva a avaria ou observação..."
-                    ></textarea>
-
-                    <div class="buttons">
-
-                        <button
-                            type="button"
-                            class="
-                                action-button
-                                mic-button
-                            "
-                        >
-                            🎤 Falar
-                        </button>
-
-                        <button
-                            type="button"
-                            class="
-                                action-button
-                                photo-button
-                            "
-                        >
-                            📷 Fotos
-                        </button>
-
-                    </div>
-
-                    <!-- GALERIA -->
-
-                    <input
-                        type="file"
-                        class="hidden-input gallery-input"
-                        accept="image/*"
-                        multiple
-                    >
-
-                    <!-- CÂMERA -->
-
-                    <input
-                        type="file"
-                        class="hidden-input camera-input"
-                        accept="image/*"
-                        capture="environment"
-                    >
-
-                    <div class="status"></div>
-
-                    <div class="photos"></div>
-
-                </div>
-
-            `;
-
-            itemsContainer.appendChild(card);
-
-
-            /* ELEMENTOS */
-
-            const textarea =
-                card.querySelector("textarea");
-
-            const micButton =
-                card.querySelector(".mic-button");
-
-            const photoButton =
-                card.querySelector(".photo-button");
-
-            const galleryInput =
-                card.querySelector(".gallery-input");
-
-            const cameraInput =
-                card.querySelector(".camera-input");
-
-            const photosContainer =
-                card.querySelector(".photos");
-
-            const deleteButton =
-                card.querySelector(".delete-button");
-
-            const status =
-                card.querySelector(".status");
-
-
-            /* EXCLUIR */
-
-            deleteButton.addEventListener(
-                "click",
+            recognition.onstart =
                 function() {
 
-                    askToDeleteMarker(data.id);
+                    micButton.classList.add(
+                        "listening"
+                    );
 
-                }
-            );
+
+                    micButton.textContent =
+                        "🔴 Ouvindo...";
 
 
-            /* TEXTO */
+                    status.textContent =
+                        "Fale agora. Sua voz será convertida em texto.";
 
-            textarea.addEventListener(
-                "input",
-                function() {
+                };
+
+
+            recognition.onresult =
+                function(event) {
+
+                    let finalText =
+                        "";
+
+
+                    let interimText =
+                        "";
+
+
+                    for (
+                        let i =
+                            event.resultIndex;
+
+                        i <
+                            event.results.length;
+
+                        i++
+                    ) {
+
+                        const transcript =
+                            event
+                            .results[i][0]
+                            .transcript;
+
+
+                        if (
+                            event
+                            .results[i]
+                            .isFinal
+                        ) {
+
+                            finalText +=
+                                transcript;
+
+                        }
+
+                        else {
+
+                            interimText +=
+                                transcript;
+
+                        }
+
+                    }
+
+
+                    const separator =
+
+                        baseText
+                        &&
+                        (
+                            finalText
+                            ||
+                            interimText
+                        )
+
+                            ?
+
+                            " "
+
+                            :
+
+                            "";
+
+
+                    textarea.value =
+
+                        baseText
+                        +
+                        separator
+                        +
+                        finalText
+                        +
+                        interimText;
+
 
                     const marker =
                         markers.find(
                             item =>
-                                item.id === data.id
+                                item.id ===
+                                data.id
                         );
 
-                    if (marker) {
+
+                    if (
+                        marker
+                    ) {
 
                         marker.text =
                             textarea.value;
 
                     }
 
-                }
-            );
+                };
 
 
-            /* =================================
-               MICROFONE
-            ================================== */
+            recognition.onend =
+                function() {
 
-            const SpeechRecognition =
-
-                window.SpeechRecognition
-                ||
-                window.webkitSpeechRecognition;
+                    micButton.classList.remove(
+                        "listening"
+                    );
 
 
-            if (SpeechRecognition) {
+                    micButton.textContent =
+                        "🎤 Falar";
 
-                const recognition =
-                    new SpeechRecognition();
 
-                recognition.lang = "pt-BR";
+                    status.textContent =
+                        "";
 
-                recognition.continuous = false;
+                };
 
-                recognition.interimResults = true;
 
-                let baseText = "";
+            recognition.onerror =
+                function(event) {
 
-                micButton.addEventListener(
-                    "click",
-                    function() {
+                    micButton.classList.remove(
+                        "listening"
+                    );
 
-                        if (
-                            micButton.classList.contains(
-                                "listening"
-                            )
-                        ) {
 
-                            recognition.stop();
+                    micButton.textContent =
+                        "🎤 Falar";
 
-                            return;
 
-                        }
+                    status.textContent =
+                        "Erro no microfone: "
+                        +
+                        event.error;
 
-                        baseText =
-                            textarea.value.trim();
+                };
 
-                        recognition.start();
+        }
 
-                    }
+        else {
+
+            micButton.disabled =
+                true;
+
+
+            micButton.textContent =
+                "🎤 Não suportado";
+
+        }
+
+
+        /* =================================
+           ABRIR FOTOS
+        ================================== */
+
+        photoButton.addEventListener(
+            "click",
+            function() {
+
+                /*
+                   Guarda o card atual
+                */
+
+                currentPhotoCard = {
+
+                    galleryInput:
+                        galleryInput,
+
+                    cameraInput:
+                        cameraInput
+
+                };
+
+
+                photoModal.classList.add(
+                    "active"
                 );
 
-                recognition.onstart =
-                    function() {
 
-                        micButton.classList.add(
-                            "listening"
-                        );
+                document.body.classList.add(
+                    "modal-open"
+                );
 
-                        micButton.textContent =
-                            "🔴 Ouvindo...";
+            }
+        );
 
-                        status.textContent =
-                            "Fale agora. Sua voz será convertida em texto.";
 
-                    };
+        /* GALERIA */
 
-                recognition.onresult =
-                    function(event) {
+        galleryInput.addEventListener(
+            "change",
+            function(event) {
 
-                        let finalText = "";
+                processSelectedPhotos(
+                    event.target.files,
+                    data,
+                    photosContainer
+                );
 
-                        let interimText = "";
 
-                        for (
-                            let i =
-                                event.resultIndex;
+                galleryInput.value =
+                    "";
 
-                            i <
-                                event.results.length;
+            }
+        );
 
-                            i++
-                        ) {
 
-                            const transcript =
-                                event
-                                .results[i][0]
-                                .transcript;
+        /* CÂMERA */
+
+        cameraInput.addEventListener(
+            "change",
+            function(event) {
+
+                processSelectedPhotos(
+                    event.target.files,
+                    data,
+                    photosContainer
+                );
+
+
+                cameraInput.value =
+                    "";
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       ESCOLHER CÂMERA
+    ========================================== */
+
+    document
+        .getElementById(
+            "cameraOption"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                if (
+                    !currentPhotoCard
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                   Fecha visualmente o modal,
+                   mas o input é acionado
+                   imediatamente no clique.
+                */
+
+                photoModal.classList.remove(
+                    "active"
+                );
+
+                document.body.classList.remove(
+                    "modal-open"
+                );
+
+
+                currentPhotoCard
+                    .cameraInput
+                    .click();
+
+            }
+        );
+
+
+    /* =========================================
+       ESCOLHER GALERIA
+    ========================================== */
+
+    document
+        .getElementById(
+            "galleryOption"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                if (
+                    !currentPhotoCard
+                ) {
+
+                    return;
+
+                }
+
+
+                photoModal.classList.remove(
+                    "active"
+                );
+
+                document.body.classList.remove(
+                    "modal-open"
+                );
+
+
+                currentPhotoCard
+                    .galleryInput
+                    .click();
+
+            }
+        );
+
+
+    /* CANCELAR FOTO */
+
+    document
+        .getElementById(
+            "closePhotoModal"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                closePhotoModal();
+
+            }
+        );
+
+
+    function closePhotoModal() {
+
+        photoModal.classList.remove(
+            "active"
+        );
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+        currentPhotoCard =
+            null;
+
+    }
+
+
+    /* =========================================
+       PROCESSAR FOTOS
+    ========================================== */
+
+    function processSelectedPhotos(
+        files,
+        data,
+        photosContainer
+    ) {
+
+        Array
+            .from(files)
+            .forEach(
+                function(file) {
+
+                    if (
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(event) {
+
+                            const photoData =
+                                event.target.result;
+
+
+                            const marker =
+                                markers.find(
+                                    item =>
+                                        item.id ===
+                                        data.id
+                                );
+
 
                             if (
-                                event
-                                .results[i]
-                                .isFinal
+                                marker
                             ) {
 
-                                finalText +=
-                                    transcript;
-
-                            } else {
-
-                                interimText +=
-                                    transcript;
+                                marker.photos.push(
+                                    photoData
+                                );
 
                             }
 
-                        }
 
-                        const separator =
-                            baseText
-                            &&
-                            (
-                                finalText
-                                ||
-                                interimText
-                            )
-                                ?
-                                " "
-                                :
-                                "";
-
-                        textarea.value =
-                            baseText
-                            +
-                            separator
-                            +
-                            finalText
-                            +
-                            interimText;
-
-                        const marker =
-                            markers.find(
-                                item =>
-                                    item.id ===
-                                    data.id
+                            createPhoto(
+                                photoData,
+                                data.id,
+                                photosContainer
                             );
 
-                        if (marker) {
-
-                            marker.text =
-                                textarea.value;
-
-                        }
-
-                    };
-
-                recognition.onend =
-                    function() {
-
-                        micButton.classList.remove(
-                            "listening"
-                        );
-
-                        micButton.textContent =
-                            "🎤 Falar";
-
-                        status.textContent =
-                            "";
-
-                    };
-
-                recognition.onerror =
-                    function(event) {
-
-                        micButton.classList.remove(
-                            "listening"
-                        );
-
-                        micButton.textContent =
-                            "🎤 Falar";
-
-                        status.textContent =
-                            "Erro no microfone: "
-                            +
-                            event.error;
-
-                    };
-
-            } else {
-
-                micButton.disabled = true;
-
-                micButton.textContent =
-                    "🎤 Não suportado";
-
-            }
+                        };
 
 
-            /* =================================
-               FOTOS - ABRIR MODAL
-            ================================== */
-
-            photoButton.addEventListener(
-                "click",
-                function() {
-
-                    currentPhotoInput = {
-                        galleryInput:
-                            galleryInput,
-
-                        cameraInput:
-                            cameraInput
-                    };
-
-                    photoModal.classList.add(
-                        "active"
-                    );
-
-                    document.body.classList.add(
-                        "modal-open"
+                    reader.readAsDataURL(
+                        file
                     );
 
                 }
             );
 
+    }
 
-            /* =================================
-               PROCESSAR GALERIA
-            ================================== */
 
-            galleryInput.addEventListener(
-                "change",
-                function(event) {
+    /* =========================================
+       CRIAR MINIATURA
+    ========================================== */
 
-                    processSelectedPhotos(
-                        event.target.files,
-                        data,
-                        photosContainer
-                    );
+    function createPhoto(
+        photoData,
+        markerId,
+        container
+    ) {
 
-                    galleryInput.value = "";
-
-                }
+        const box =
+            document.createElement(
+                "div"
             );
 
 
-            /* =================================
-               PROCESSAR CÂMERA
-            ================================== */
-
-            cameraInput.addEventListener(
-                "change",
-                function(event) {
-
-                    processSelectedPhotos(
-                        event.target.files,
-                        data,
-                        photosContainer
-                    );
-
-                    cameraInput.value = "";
-
-                }
-            );
-
-        }
+        box.className =
+            "photo-box";
 
 
-        /* =========================================
-           MODAL DE FOTOS
-        ========================================== */
+        box.innerHTML = `
 
-        document
-            .getElementById("cameraOption")
-            .addEventListener(
-                "click",
-                function() {
+            <img
+                src="${photoData}"
+                alt="Foto da avaria"
+            >
 
-                    if (
-                        currentPhotoInput
-                    ) {
+            <button
+                type="button"
+                class="remove-photo"
+            >
+                ×
+            </button>
 
-                        closePhotoModal();
+        `;
 
-                        setTimeout(
-                            function() {
 
-                                currentPhotoInput
-                                    .cameraInput
-                                    .click();
-
-                            },
-                            150
-                        );
-
-                    }
-
-                }
+        const removeButton =
+            box.querySelector(
+                ".remove-photo"
             );
 
 
-        document
-            .getElementById("galleryOption")
-            .addEventListener(
-                "click",
-                function() {
-
-                    if (
-                        currentPhotoInput
-                    ) {
-
-                        closePhotoModal();
-
-                        setTimeout(
-                            function() {
-
-                                currentPhotoInput
-                                    .galleryInput
-                                    .click();
-
-                            },
-                            150
-                        );
-
-                    }
-
-                }
-            );
-
-
-        document
-            .getElementById("closePhotoModal")
-            .addEventListener(
-                "click",
-                function() {
-
-                    closePhotoModal();
-
-                }
-            );
-
-
-        function closePhotoModal() {
-
-            photoModal.classList.remove(
-                "active"
-            );
-
-            document.body.classList.remove(
-                "modal-open"
-            );
-
-            currentPhotoInput = null;
-
-        }
-
-
-        /* =========================================
-           PROCESSAR FOTOS
-        ========================================== */
-
-        function processSelectedPhotos(
-            files,
-            data,
-            photosContainer
-        ) {
-
-            Array
-                .from(files)
-                .forEach(
-                    function(file) {
-
-                        if (
-                            !file.type.startsWith(
-                                "image/"
-                            )
-                        ) {
-                            return;
-                        }
-
-                        const reader =
-                            new FileReader();
-
-                        reader.onload =
-                            function(event) {
-
-                                const photoData =
-                                    event.target.result;
-
-                                const marker =
-                                    markers.find(
-                                        item =>
-                                            item.id ===
-                                            data.id
-                                    );
-
-                                if (marker) {
-
-                                    marker.photos.push(
-                                        photoData
-                                    );
-
-                                }
-
-                                createPhoto(
-                                    photoData,
-                                    data.id,
-                                    photosContainer
-                                );
-
-                            };
-
-                        reader.readAsDataURL(
-                            file
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =========================================
-           CRIAR MINIATURA
-        ========================================== */
-
-        function createPhoto(
-            photoData,
-            markerId,
-            container
-        ) {
-
-            const box =
-                document.createElement("div");
-
-            box.className =
-                "photo-box";
-
-            box.innerHTML = `
-
-                <img
-                    src="${photoData}"
-                    alt="Foto da avaria"
-                >
-
-                <button
-                    type="button"
-                    class="remove-photo"
-                    title="Remover foto"
-                >
-                    ×
-                </button>
-
-            `;
-
-            const removeButton =
-                box.querySelector(
-                    ".remove-photo"
-                );
-
-            removeButton.addEventListener(
-                "click",
-                function() {
-
-                    const marker =
-                        markers.find(
-                            item =>
-                                item.id ===
-                                markerId
-                        );
-
-                    if (marker) {
-
-                        const index =
-                            marker.photos.indexOf(
-                                photoData
-                            );
-
-                        if (index > -1) {
-
-                            marker.photos.splice(
-                                index,
-                                1
-                            );
-
-                        }
-
-                    }
-
-                    box.remove();
-
-                }
-            );
-
-            container.appendChild(box);
-
-        }
-
-
-        /* =========================================
-           FECHAR MODAIS AO CLICAR FORA
-        ========================================== */
-
-        deleteModal.addEventListener(
+        removeButton.addEventListener(
             "click",
-            function(event) {
+            function() {
+
+                const marker =
+                    markers.find(
+                        item =>
+                            item.id ===
+                            markerId
+                    );
+
 
                 if (
-                    event.target === deleteModal
+                    marker
                 ) {
 
-                    closeDeleteModal();
+                    const index =
+                        marker.photos.indexOf(
+                            photoData
+                        );
+
+
+                    if (
+                        index > -1
+                    ) {
+
+                        marker.photos.splice(
+                            index,
+                            1
+                        );
+
+                    }
 
                 }
+
+
+                box.remove();
 
             }
         );
 
 
-        photoModal.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === photoModal
-                ) {
-
-                    closePhotoModal();
-
-                }
-
-            }
+        container.appendChild(
+            box
         );
 
-    </script>
+    }
+
+
+    /* =========================================
+       FECHAR MODAIS
+    ========================================== */
+
+    deleteModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                deleteModal
+            ) {
+
+                closeDeleteModal();
+
+            }
+
+        }
+    );
+
+
+    photoModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                photoModal
+            ) {
+
+                closePhotoModal();
+
+            }
+
+        }
+    );
+
+
+</script>
 
 </body>
 </html>
