@@ -489,6 +489,39 @@
             font-size: 12px;
             padding: 0 15px;
         }
+
+        /* Loading para a câmera */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -570,6 +603,14 @@
     </div>
 </div>
 
+<!-- LOADING -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div style="text-align: center;">
+        <div class="spinner"></div>
+        <div>Abrindo câmera...</div>
+    </div>
+</div>
+
 <script>
     // ============================================
     // IMAGENS DOS VEÍCULOS
@@ -605,6 +646,7 @@
     const emptyMessage = document.getElementById("emptyMessage");
     const deleteModal = document.getElementById("deleteModal");
     const photoModal = document.getElementById("photoModal");
+    const loadingOverlay = document.getElementById("loadingOverlay");
 
     // ============================================
     // DADOS
@@ -638,17 +680,14 @@
             const data = JSON.parse(saved);
             if (!data.markers || data.markers.length === 0) return false;
             
-            // Restaurar dados
             markers = data.markers;
             currentNumber = data.currentNumber || 1;
             
             if (data.selectedVehicle) {
                 vehicleSelector.value = data.selectedVehicle;
-                // Disparar o evento change para carregar a imagem correta
                 vehicleSelector.dispatchEvent(new Event('change'));
             }
             
-            // Recriar todos os marcadores e cards
             renderAllMarkers();
             return true;
         } catch (e) {
@@ -661,11 +700,9 @@
     // RENDERIZAR TODOS OS MARCADORES
     // ============================================
     function renderAllMarkers() {
-        // Limpar tudo
         document.querySelectorAll('.marker').forEach(el => el.remove());
         itemsContainer.innerHTML = '';
         
-        // Recriar cada marcador
         markers.forEach(data => {
             createMarker(data);
             createItemCard(data);
@@ -954,16 +991,33 @@
             document.body.classList.add("modal-open");
         });
 
-        // GALERIA
+        // GALERIA - COM MULTIPLE
         galleryInput.addEventListener("change", function(event) {
             processSelectedPhotos(event.target.files, data, photosContainer);
             galleryInput.value = "";
         });
 
-        // CÂMERA - SEM CAPTURE PARA EVITAR REINÍCIO
+        // CÂMERA - COM CAPTURE PARA ABRIR A CÂMERA
+        // Usamos um truque para evitar o reload: abrimos via click e tratamos o evento
+        cameraInput.addEventListener("click", function(e) {
+            // Mostrar loading enquanto a câmera é aberta
+            loadingOverlay.classList.add("active");
+            
+            // Esconder o loading após 3 segundos (caso a câmera demore)
+            setTimeout(() => {
+                loadingOverlay.classList.remove("active");
+            }, 3000);
+        });
+
         cameraInput.addEventListener("change", function(event) {
+            loadingOverlay.classList.remove("active");
             processSelectedPhotos(event.target.files, data, photosContainer);
             cameraInput.value = "";
+        });
+
+        // Se o usuário cancelar a câmera
+        cameraInput.addEventListener("cancel", function() {
+            loadingOverlay.classList.remove("active");
         });
     }
 
@@ -972,10 +1026,23 @@
     // ============================================
     document.getElementById("cameraOption").addEventListener("click", function() {
         if (!currentPhotoCard) return;
+        
         photoModal.classList.remove("active");
         document.body.classList.remove("modal-open");
-        // Abrir o input da câmera sem o atributo capture
-        currentPhotoCard.cameraInput.click();
+        
+        // Abrir a câmera com capture
+        const cameraInput = currentPhotoCard.cameraInput;
+        
+        // Definir capture para abrir a câmera diretamente
+        cameraInput.setAttribute('capture', 'environment');
+        
+        // Disparar o click
+        cameraInput.click();
+        
+        // Remover o capture após uso para não causar problemas
+        setTimeout(() => {
+            cameraInput.removeAttribute('capture');
+        }, 100);
     });
 
     // ============================================
@@ -983,9 +1050,14 @@
     // ============================================
     document.getElementById("galleryOption").addEventListener("click", function() {
         if (!currentPhotoCard) return;
+        
         photoModal.classList.remove("active");
         document.body.classList.remove("modal-open");
-        currentPhotoCard.galleryInput.click();
+        
+        // Garantir que a galeria permite múltiplas seleções
+        const galleryInput = currentPhotoCard.galleryInput;
+        galleryInput.setAttribute('multiple', 'multiple');
+        galleryInput.click();
     });
 
     // CANCELAR FOTO
@@ -1009,8 +1081,20 @@
     // PROCESSAR FOTOS
     // ============================================
     function processSelectedPhotos(files, data, photosContainer) {
+        if (!files || files.length === 0) return;
+        
+        // Limpar o loading se estiver ativo
+        loadingOverlay.classList.remove("active");
+        
         Array.from(files).forEach(function(file) {
             if (!file.type.startsWith("image/")) return;
+            
+            // Verificar tamanho (limitar a 5MB para não sobrecarregar localStorage)
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`A foto "${file.name}" é muito grande (${(file.size / 1024 / 1024).toFixed(1)}MB). Use fotos menores que 5MB.`);
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(event) {
                 const photoData = event.target.result;
@@ -1020,6 +1104,9 @@
                     saveToLocalStorage();
                 }
                 createPhoto(photoData, data.id, photosContainer);
+            };
+            reader.onerror = function() {
+                alert("Erro ao ler a foto. Tente novamente.");
             };
             reader.readAsDataURL(file);
         });
@@ -1032,7 +1119,7 @@
         const box = document.createElement("div");
         box.className = "photo-box";
         box.innerHTML = `
-            <img src="${photoData}" alt="Foto da avaria">
+            <img src="${photoData}" alt="Foto da avaria" loading="lazy">
             <button type="button" class="remove-photo">×</button>
         `;
 
@@ -1056,13 +1143,10 @@
     // INICIALIZAÇÃO
     // ============================================
     function init() {
-        // Definir valor inicial do select
         vehicleSelector.dataset.lastValue = 'sedan';
         
-        // Tentar carregar dados salvos
         const loaded = loadFromLocalStorage();
         
-        // Se não carregou dados, mostrar a imagem padrão
         if (!loaded) {
             const initialVehicle = vehicleSelector.value;
             const imageURL = vehicleImages[initialVehicle];
@@ -1073,16 +1157,35 @@
             }
         }
         
-        // Salvar estado inicial
         saveToLocalStorage();
     }
 
-    // Iniciar a aplicação
     init();
 
-    // Salvar automaticamente quando o usuário sair da página
     window.addEventListener('beforeunload', function() {
         saveToLocalStorage();
+    });
+
+    // ============================================
+    // TRATAMENTO DE ERRO DA CÂMERA
+    // ============================================
+    // Se a câmera falhar, remover o loading
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            // Página ficou invisível (câmera aberta)
+            // Não faz nada, aguarda o retorno
+        } else {
+            // Página voltou a ficar visível
+            loadingOverlay.classList.remove('active');
+            
+            // Verificar se temos inputs de câmera abertos
+            const cameraInputs = document.querySelectorAll('.camera-input');
+            cameraInputs.forEach(input => {
+                if (input.files && input.files.length > 0) {
+                    // Já processado pelo evento change
+                }
+            });
+        }
     });
 </script>
 </body>
